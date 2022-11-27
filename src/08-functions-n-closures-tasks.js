@@ -23,8 +23,11 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  // eslint-disable-next-line func-names
+  return function (x) {
+    return f(g(x));
+  };
 }
 
 
@@ -44,8 +47,11 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  // eslint-disable-next-line func-names
+  return function (x) {
+    return x ** exponent;
+  };
 }
 
 
@@ -101,8 +107,16 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  // eslint-disable-next-line consistent-return
+  return () => {
+    for (let i = 0; i <= attempts; i += 1) {
+      try {
+        return func();
+      // eslint-disable-next-line no-empty
+      } catch (e) {}
+    }
+  };
 }
 
 
