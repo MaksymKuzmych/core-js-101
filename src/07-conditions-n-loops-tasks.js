@@ -314,8 +314,12 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let number = num;
+  while (String(number).length > 1) {
+    number = String(number).split('').reduce((acc, el) => acc + +el, 0);
+  }
+  return number;
 }
 
 
@@ -340,10 +344,30 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    '}': '{',
+    ']': '[',
+    ')': '(',
+    '>': '<',
+  };
+  const openBrackets = ['{', '(', '[', '<'];
+  const closedBrackets = ['}', ')', ']', '>'];
+  const stack = [];
+  if (str === '') {
+    return true;
+  }
+  for (let i = 0; i < str.length; i += 1) {
+    if (openBrackets.includes(str[i])) {
+      stack.push(str[i]);
+    } else if (closedBrackets.includes(str[i]) && brackets[str[i]] === stack[stack.length - 1]) {
+      stack.pop();
+    } else {
+      return false;
+    }
+  }
+  return stack.length === 0;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -365,8 +389,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -405,8 +429,19 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    result[i] = [];
+    for (let j = 0; j < m2[0].length; j += 1) {
+      let sum = 0;
+      for (let t = 0; t < m1[0].length; t += 1) {
+        sum += m1[i][t] * m2[t][j];
+      }
+      result[i][j] = sum;
+    }
+  }
+  return result;
 }
 
 
@@ -440,8 +475,40 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const arrCol1 = [position[0][0], position[1][0], position[2][0]];
+  const arrCol2 = [position[0][1], position[1][1], position[2][1]];
+  const arrCol3 = [position[0][2], position[1][2], position[2][2]];
+  const diagonal1 = [position[0][0], position[1][1], position[2][2]];
+  const diagonal2 = [position[0][2], position[1][1], position[2][0]];
+
+  for (let i = 0; i < position.length; i += 1) {
+    if (position[i].length < 3) {
+      position[i].push('');
+    }
+    if (position[i].every((el) => el === 'X')) {
+      return 'X';
+    }
+    if (position[i].every((el) => el === '0')) {
+      return '0';
+    }
+  }
+
+  if (arrCol1.every((el) => el === 'X') || arrCol2.every((el) => el === 'X') || arrCol3.every((el) => el === 'X')) {
+    return 'X';
+  }
+  if (arrCol1.every((el) => el === '0') || arrCol2.every((el) => el === '0') || arrCol3.every((el) => el === '0')) {
+    return '0';
+  }
+
+  if (diagonal1.every((el) => el === 'X') || diagonal2.every((el) => el === 'X')) {
+    return 'X';
+  }
+  if (diagonal1.every((el) => el === '0') || diagonal2.every((el) => el === '0')) {
+    return '0';
+  }
+
+  return undefined;
 }
 
 
