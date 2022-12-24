@@ -315,7 +315,11 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-  return arr.reduce((acc, el) => (typeof el === 'number' && el > 0 ? acc + 1 : acc), 0);
+  return arr.reduce(
+    (acc, el) => (typeof el === 'number' && el > 0 ? acc + 1 : acc),
+    // eslint-disable-next-line comma-dangle
+    0
+  );
 }
 
 /**
@@ -333,7 +337,16 @@ function getPositivesCount(arr) {
  */
 function sortDigitNamesByNumericOrder(arr) {
   const digits = {
-    zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9,
+    zero: 0,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
   };
   return arr.sort((a, b) => digits[a] - digits[b]);
 }
@@ -540,8 +553,17 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  return array.reduce((acc, el) => {
+    const arrayKey = keySelector(el);
+    const arrayValue = valueSelector(el);
+    if (acc.has(arrayKey)) {
+      acc.get(arrayKey).push(arrayValue);
+    } else {
+      acc.set(arrayKey, [arrayValue]);
+    }
+    return acc;
+  }, new Map());
 }
 
 /**
